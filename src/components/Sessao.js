@@ -8,10 +8,10 @@ export default function Sessao(props) {
             {props.dia.weekday} - {props.dia.date}
             <ButtonsContainer>
                 <Link to={`/assentos/${props.dia.showtimes[0].id}`}>
-                    <button data-test="show-time">{props.dia.showtimes[0].name}</button>
+                    <button data-test="showtime">{props.dia.showtimes[0].name}</button>
                 </Link>
                 <Link to={`/assentos/${props.dia.showtimes[1].id}`}>
-                    <button data-test="show-time">{props.dia.showtimes[1].name}</button>
+                    <button data-test="showtime">{props.dia.showtimes[1].name}</button>
                 </Link>
             </ButtonsContainer>
         </SessionContainer>
