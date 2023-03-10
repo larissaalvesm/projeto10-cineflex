@@ -4,8 +4,16 @@ import SeatsPage from "./pages/SeatsPage/SeatsPage"
 import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { useState } from "react"
 
 export default function App() {
+    const [day, setDay] = useState([]);
+    const [movie, setMovie] = useState([]);
+    const [seats, setSeats] = useState([]);
+    const [section, setSection] = useState([]);
+    const [assentosSelecionados, setAssentosSelecionados] = useState([]);
+    const [comprador, setComprador] = useState("");
+    const [cpf, setCpf] = useState("");
     return (
         <>
             <NavContainer>CINEFLEX</NavContainer>
@@ -13,8 +21,30 @@ export default function App() {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/sessoes/:idFilme" element={<SessionsPage />} />
-                    <Route path="/assentos/:idSessao" element={<SeatsPage />} />
-                    <Route path="/sucesso" element={<SuccessPage />} />
+                    <Route path="/assentos/:idSessao" element={<SeatsPage
+                        day={day}
+                        setDay={setDay}
+                        movie={movie}
+                        setMovie={setMovie}
+                        seats={seats}
+                        setSeats={setSeats}
+                        section={section}
+                        setSection={setSection}
+                        assentosSelecionados={assentosSelecionados}
+                        setAssentosSelecionados={setAssentosSelecionados}
+                        comprador={comprador}
+                        setComprador={setComprador}
+                        cpf={cpf}
+                        setCpf={setCpf}
+                    />} />
+                    <Route path="/sucesso" element={<SuccessPage
+                        day={day}
+                        movie={movie}
+                        section={section}
+                        assentosSelecionados={assentosSelecionados}
+                        setAssentosSelecionados={setAssentosSelecionados}
+                        comprador={comprador}
+                        cpf={cpf} />} />
                 </Routes>
             </BrowserRouter>
         </>

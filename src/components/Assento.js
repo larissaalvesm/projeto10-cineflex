@@ -1,7 +1,4 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom";
-import { useState } from "react";
-
 export default function Assento(props) {
 
 
@@ -9,7 +6,7 @@ export default function Assento(props) {
         <>
             <SeatItem
                 data-test="seat"
-                id={props.assento.id}
+                id={props.assento}
                 assentosSelecionados={props.assentosSelecionados}
                 disponibilidade={props.assento.isAvailable}
                 onClick={() => props.selecionarAssento(props.assento)}

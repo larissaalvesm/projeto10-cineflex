@@ -1,19 +1,14 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Assento from "../../components/Assento";
 
-export default function SeatsPage() {
-    const [day, setDay] = useState([]);
-    const [movie, setMovie] = useState([]);
-    const [seats, setSeats] = useState([]);
-    const [section, setSection] = useState([]);
+
+export default function SeatsPage({ day, setDay, movie, setMovie, seats, setSeats, section, setSection, assentosSelecionados, setAssentosSelecionados, comprador, setComprador, cpf, setCpf }) {
+
     const { idSessao } = useParams();
-    const [assentosSelecionados, setAssentosSelecionados] = useState([]);
-    const [comprador, setComprador] = useState("");
-    const [cpf, setCpf] = useState("");
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,12 +28,12 @@ export default function SeatsPage() {
     }, [])
 
     function selecionarAssento(assento) {
-        const novosAssentosSelecionados = assentosSelecionados.filter((ass => ass !== assento.id));
+        const novosAssentosSelecionados = assentosSelecionados.filter((ass => ass !== assento));
 
         if (assento.isAvailable === false) {
             alert("Esse assento não está disponível.")
-        } else if (!assentosSelecionados.includes(assento.id)) {
-            setAssentosSelecionados([...assentosSelecionados, assento.id]);
+        } else if (!assentosSelecionados.includes(assento)) {
+            setAssentosSelecionados([...assentosSelecionados, assento]);
         } else {
             setAssentosSelecionados(novosAssentosSelecionados);
         }
@@ -49,7 +44,7 @@ export default function SeatsPage() {
         e.preventDefault();
 
         const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
-            ids: assentosSelecionados,
+            ids: assentosSelecionados.map(assento => assento.id),
             name: comprador,
             cpf: cpf
         });
@@ -206,3 +201,4 @@ const FooterContainer = styled.div`
         }
     }
                 `
+
