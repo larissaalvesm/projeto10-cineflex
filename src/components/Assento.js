@@ -3,30 +3,16 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function Assento(props) {
-    const [assentosSelecionados, setAssentosSelecionados] = useState([]);
-    console.log(assentosSelecionados)
 
-    function selecionarAssento(assento) {
-        const novosAssentosSelecionados = assentosSelecionados.filter((ass => ass !== assento.id));
-
-        if (assento.isAvailable === false) {
-            alert("Esse assento não está disponível.")
-        } else if (!assentosSelecionados.includes(assento.id)) {
-            setAssentosSelecionados([...assentosSelecionados, assento.id]);
-        } else {
-            setAssentosSelecionados(novosAssentosSelecionados);
-        }
-
-    }
 
     return (
         <>
             <SeatItem
                 data-test="seat"
                 id={props.assento.id}
-                assentosSelecionados={assentosSelecionados}
+                assentosSelecionados={props.assentosSelecionados}
                 disponibilidade={props.assento.isAvailable}
-                onClick={() => selecionarAssento(props.assento)}
+                onClick={() => props.selecionarAssento(props.assento)}
             >
                 {props.assento.name}
             </SeatItem>

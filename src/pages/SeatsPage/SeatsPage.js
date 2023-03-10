@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import Assento from "../../components/Assento";
@@ -11,7 +11,10 @@ export default function SeatsPage() {
     const [seats, setSeats] = useState([]);
     const [section, setSection] = useState([]);
     const { idSessao } = useParams();
-    console.log(seats)
+    const [assentosSelecionados, setAssentosSelecionados] = useState([]);
+    const [comprador, setComprador] = useState("");
+    const [cpf, setCpf] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -29,12 +32,39 @@ export default function SeatsPage() {
         });
     }, [])
 
+    function selecionarAssento(assento) {
+        const novosAssentosSelecionados = assentosSelecionados.filter((ass => ass !== assento.id));
+
+        if (assento.isAvailable === false) {
+            alert("Esse assento não está disponível.")
+        } else if (!assentosSelecionados.includes(assento.id)) {
+            setAssentosSelecionados([...assentosSelecionados, assento.id]);
+        } else {
+            setAssentosSelecionados(novosAssentosSelecionados);
+        }
+
+    }
+
+    function reservarAssentos(e) {
+        e.preventDefault();
+
+        const requisicao = axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", {
+            ids: assentosSelecionados,
+            name: comprador,
+            cpf: cpf
+        });
+
+        requisicao.then(() => navigate("/sucesso"))
+
+
+    }
+
     return (
         <PageContainer>
             Selecione o(s) assento(s)
 
             <SeatsContainer>
-                {seats.map(assento => <Assento key={assento.id} assento={assento} />)}
+                {seats.map(assento => <Assento key={assento.id} assento={assento} assentosSelecionados={assentosSelecionados} selecionarAssento={selecionarAssento} />)}
             </SeatsContainer>
 
             <CaptionContainer>
@@ -52,14 +82,17 @@ export default function SeatsPage() {
                 </CaptionItem>
             </CaptionContainer>
 
-            <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+            <FormContainer onSubmit={reservarAssentos}>
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                <label htmlFor="nome">Nome do Comprador:</label>
+                <input required type="text" id="nome" value={comprador} onChange={e => setComprador(e.target.value)} />
 
-                <button>Reservar Assento(s)</button>
+                <label htmlFor="cpf">CPF do Comprador:</label>
+                <input required id="cpf" value={cpf} onChange={e => setCpf(e.target.value)} />
+
+                <button type="submit">Reservar Assento(s)</button>
+
+
             </FormContainer>
 
             <FooterContainer data-test="footer">
@@ -97,7 +130,7 @@ const SeatsContainer = styled.div`
                 justify-content: center;
                 margin-top: 20px;
                 `
-const FormContainer = styled.div`
+const FormContainer = styled.form`
                 width: calc(100vw - 40px);
                 display: flex;
                 flex-direction: column;
