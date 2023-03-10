@@ -2,7 +2,6 @@ import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Filme from "../../components/Filme";
-import { useParams } from "react-router-dom";
 
 export default function HomePage() {
 

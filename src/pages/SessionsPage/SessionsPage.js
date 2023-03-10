@@ -7,6 +7,8 @@ import Sessao from "../../components/Sessao";
 
 export default function SessionsPage() {
     const [sessoes, setSessoes] = useState([]);
+    const [dias, setDias] = useState([]);
+    console.log(dias);
     const { idFilme } = useParams();
 
     useEffect(() => {
@@ -14,18 +16,24 @@ export default function SessionsPage() {
         const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`);
 
         requisicao.then(resposta => {
+            console.log(resposta.data)
             setSessoes(resposta.data)
-        })
+            setDias(resposta.data.days)
+        });
+
+        requisicao.catch(erro => {
+            console.log(erro.response.data)
+        });
     }, [])
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                <Sessao dias={sessoes.days} />
+                {dias.map(dia => <Sessao key={dia.id} dia={dia} />)}
             </div>
 
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={sessoes.posterURL} alt={sessoes.title} />
                 </div>

@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 export default function Sessao(props) {
 
     return (
-        <SessionContainer>
-            Sexta - 03/03/2023
+        <SessionContainer data-test="movie-day">
+            {props.dia.weekday} - {props.dia.date}
             <ButtonsContainer>
-                <button>14:00</button>
-                <button>15:00</button>
+                <button data-test="show-time">{props.dia.showtimes[0].name}</button>
+                <button data-test="show-time">{props.dia.showtimes[1].name}</button>
             </ButtonsContainer>
         </SessionContainer>
     )
