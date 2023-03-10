@@ -1,4 +1,3 @@
-
 import styled from "styled-components"
 import { Link } from "react-router-dom";
 
@@ -8,8 +7,12 @@ export default function Sessao(props) {
         <SessionContainer data-test="movie-day">
             {props.dia.weekday} - {props.dia.date}
             <ButtonsContainer>
-                <button data-test="show-time">{props.dia.showtimes[0].name}</button>
-                <button data-test="show-time">{props.dia.showtimes[1].name}</button>
+                <Link to={`/assentos/${props.dia.showtimes[0].id}`}>
+                    <button data-test="show-time">{props.dia.showtimes[0].name}</button>
+                </Link>
+                <Link to={`/assentos/${props.dia.showtimes[1].id}`}>
+                    <button data-test="show-time">{props.dia.showtimes[1].name}</button>
+                </Link>
             </ButtonsContainer>
         </SessionContainer>
     )
