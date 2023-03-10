@@ -54,8 +54,7 @@ export default function SeatsPage() {
             cpf: cpf
         });
 
-        requisicao.then(() => navigate("/sucesso"))
-
+        requisicao.then(() => navigate("/sucesso"));
 
     }
 
@@ -85,12 +84,12 @@ export default function SeatsPage() {
             <FormContainer onSubmit={reservarAssentos}>
 
                 <label htmlFor="nome">Nome do Comprador:</label>
-                <input required type="text" id="nome" value={comprador} onChange={e => setComprador(e.target.value)} />
+                <input data-test="client-name" required type="text" id="nome" value={comprador} onChange={e => setComprador(e.target.value)} />
 
                 <label htmlFor="cpf">CPF do Comprador:</label>
-                <input required id="cpf" value={cpf} onChange={e => setCpf(e.target.value)} />
+                <input data-test="client-cpf" required id="cpf" value={cpf} onChange={e => setCpf(e.target.value)} />
 
-                <button type="submit">Reservar Assento(s)</button>
+                <button data-test="book-seat-btn" type="submit">Reservar Assento(s)</button>
 
 
             </FormContainer>
