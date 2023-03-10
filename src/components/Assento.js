@@ -1,18 +1,46 @@
 import styled from "styled-components"
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function Assento(props) {
+    const [assentosSelecionados, setAssentosSelecionados] = useState([]);
+    console.log(assentosSelecionados)
+
+    function selecionarAssento(assento) {
+        const novosAssentosSelecionados = assentosSelecionados.filter((ass => ass !== assento.id));
+
+        if (assento.isAvailable === false) {
+            alert("Esse assento não está disponível.")
+        } else if (!assentosSelecionados.includes(assento.id)) {
+            setAssentosSelecionados([...assentosSelecionados, assento.id]);
+        } else {
+            setAssentosSelecionados(novosAssentosSelecionados);
+        }
+
+    }
 
     return (
         <>
-            <SeatItem data-test="seat">{props.assento.name}</SeatItem>
+            <SeatItem
+                data-test="seat"
+                id={props.assento.id}
+                assentosSelecionados={assentosSelecionados}
+                disponibilidade={props.assento.isAvailable}
+                onClick={() => selecionarAssento(props.assento)}
+            >
+                {props.assento.name}
+            </SeatItem>
         </>
     )
 }
 
 const SeatItem = styled.div`
-                border: 1px solid blue;         // Essa cor deve mudar
-                background-color: lightblue;    // Essa cor deve mudar
+                border: ${props =>
+        props.disponibilidade === true && props.assentosSelecionados.includes(props.id) ? "1px solid #0E7D71" :
+            (props.disponibilidade === false ? "1px solid #F7C52B" :
+                "1px solid #7B8B99")
+    };
+                background-color: ${props => props.disponibilidade === true && props.assentosSelecionados.includes(props.id) ? "#1AAE9E" : (props.disponibilidade === false ? "#FBE192" : "#C3CFD9")};
                 height: 25px;
                 width: 25px;
                 border-radius: 25px;

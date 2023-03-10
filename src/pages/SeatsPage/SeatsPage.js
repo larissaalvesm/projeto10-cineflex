@@ -11,6 +11,7 @@ export default function SeatsPage() {
     const [seats, setSeats] = useState([]);
     const [section, setSection] = useState([]);
     const { idSessao } = useParams();
+    console.log(seats)
 
     useEffect(() => {
 
@@ -38,15 +39,15 @@ export default function SeatsPage() {
 
             <CaptionContainer>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle disponibilidade="selecionado" />
                     Selecionado
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle disponibilidade="disponivel" />
                     Disponível
                 </CaptionItem>
                 <CaptionItem>
-                    <CaptionCircle />
+                    <CaptionCircle disponibilidade="indisponivel" />
                     Indisponível
                 </CaptionItem>
             </CaptionContainer>
@@ -118,8 +119,8 @@ const CaptionContainer = styled.div`
                 margin: 20px;
                 `
 const CaptionCircle = styled.div`
-                border: 1px solid blue;         // Essa cor deve mudar
-                background-color: lightblue;    // Essa cor deve mudar
+                border: ${props => props.disponibilidade === "disponivel" ? "1px solid #7B8B99" : (props.disponibilidade === "indisponivel" ? "1px solid #F7C52B" : "1px solid #0E7D71")};
+                background-color: ${props => props.disponibilidade === "disponivel" ? "#C3CFD9" : (props.disponibilidade === "indisponivel" ? "#FBE192" : "#1AAE9E")};
                 height: 25px;
                 width: 25px;
                 border-radius: 25px;
