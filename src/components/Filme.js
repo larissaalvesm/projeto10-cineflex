@@ -1,13 +1,15 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom";
 
 export default function Filme(props) {
 
+
     return (
-
-        <MovieContainer>
-            <img src={props.filme.posterURL} alt={props.filme.title} />
-        </MovieContainer>
-
+        <Link to={`/sessoes/${props.idFilme}`}>
+            <MovieContainer data-test="movie">
+                <img src={props.filme.posterURL} alt={props.filme.title} />
+            </MovieContainer>
+        </Link>
     )
 }
 

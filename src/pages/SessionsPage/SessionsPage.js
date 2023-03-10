@@ -1,42 +1,36 @@
-import styled from "styled-components"
+import styled from "styled-components";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
+import Sessao from "../../components/Sessao";
 
 export default function SessionsPage() {
+    const [sessoes, setSessoes] = useState([]);
+    const { idFilme } = useParams();
+
+    useEffect(() => {
+
+        const requisicao = axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${idFilme}/showtimes`);
+
+        requisicao.then(resposta => {
+            setSessoes(resposta.data)
+        })
+    }, [])
 
     return (
         <PageContainer>
             Selecione o horário
             <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
+                <Sessao dias={sessoes.days} />
             </div>
 
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={sessoes.posterURL} alt={sessoes.title} />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{sessoes.title}</p>
                 </div>
             </FooterContainer>
 
@@ -58,26 +52,7 @@ const PageContainer = styled.div`
         margin-top: 20px;
     }
 `
-const SessionContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-family: 'Roboto';
-    font-size: 20px;
-    color: #293845;
-    padding: 0 20px;
-`
-const ButtonsContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin: 20px 0;
-    button {
-        margin-right: 20px;
-    }
-    a {
-        text-decoration: none;
-    }
-`
+
 const FooterContainer = styled.div`
     width: 100%;
     height: 120px;

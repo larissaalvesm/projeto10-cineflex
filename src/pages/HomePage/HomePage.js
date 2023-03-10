@@ -2,10 +2,12 @@ import styled from "styled-components"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import Filme from "../../components/Filme";
+import { useParams } from "react-router-dom";
 
 export default function HomePage() {
 
     const [filmes, setFilmes] = useState([]);
+
 
     useEffect(() => {
         const requisicao = axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies");
@@ -20,7 +22,7 @@ export default function HomePage() {
             Selecione o filme
 
             <ListContainer>
-                {filmes.map(filme => <Filme filme={filme} />)}
+                {filmes.map(filme => <Filme key={filme.id} filme={filme} idFilme={filme.id} />)}
             </ListContainer>
 
         </PageContainer>
