@@ -44,7 +44,9 @@ export default function App() {
                         assentosSelecionados={assentosSelecionados}
                         setAssentosSelecionados={setAssentosSelecionados}
                         comprador={comprador}
-                        cpf={cpf} />} />
+                        setComprador={setComprador}
+                        cpf={cpf}
+                        setCpf={setCpf} />} />
                 </Routes>
             </BrowserRouter>
         </>
